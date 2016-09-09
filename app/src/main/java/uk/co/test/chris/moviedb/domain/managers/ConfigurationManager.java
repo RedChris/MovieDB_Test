@@ -33,22 +33,27 @@ public class ConfigurationManager {
 
 	@WorkerThread
 	public void initConfigData(@NonNull BasicCompletionCallback completionInterface) {
-		mMoviesDbService.getConfiguration().enqueue(new Callback<ConfigurationEntity>() {
-			@Override
-			public void onResponse(Call<ConfigurationEntity> call, Response<ConfigurationEntity> response) {
-				if (response.isSuccessful()) {
-					setConfigData(new Configuration(response.body()));
-					completionInterface.onComplete();
-				} else {
+		if (mConfigIsSetup) {
+			completionInterface.onComplete();
+		} else {
+
+			mMoviesDbService.getConfiguration().enqueue(new Callback<ConfigurationEntity>() {
+				@Override
+				public void onResponse(Call<ConfigurationEntity> call, Response<ConfigurationEntity> response) {
+					if (response.isSuccessful()) {
+						setConfigData(new Configuration(response.body()));
+						completionInterface.onComplete();
+					} else {
+						completionInterface.onFailure();
+					}
+				}
+
+				@Override
+				public void onFailure(Call<ConfigurationEntity> call, Throwable t) {
 					completionInterface.onFailure();
 				}
-			}
-
-			@Override
-			public void onFailure(Call<ConfigurationEntity> call, Throwable t) {
-				completionInterface.onFailure();
-			}
-		});
+			});
+		}
 	}
 
 	private void setConfigData(Configuration configuration) {

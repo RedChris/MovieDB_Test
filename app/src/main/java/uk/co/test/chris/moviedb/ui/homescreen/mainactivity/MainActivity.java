@@ -22,9 +22,7 @@ import butterknife.ButterKnife;
 import uk.co.test.chris.moviedb.R;
 import uk.co.test.chris.moviedb.injection.ApplicationComponent;
 import uk.co.test.chris.moviedb.ui.base.BaseActivity;
-import uk.co.test.chris.moviedb.ui.homescreen.OnItemClickedListener;
 import uk.co.test.chris.moviedb.ui.homescreen.gridlist.GridListFragment;
-import uk.co.test.chris.moviedb.ui.homescreen.gridlist.adapter.GridListItemAdapter;
 import uk.co.test.chris.moviedb.ui.homescreen.gridlist.model.PhotoListItemModel;
 import uk.co.test.chris.moviedb.util.NavigationAction;
 import uk.co.test.chris.moviedb.util.UtilDialog;
@@ -130,7 +128,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 		public static final int TAB_TV = 1;
 		public static final int TAB_PERSON = 2;
 
-		private GridListFragment mGridListFragment;
+		private GridListFragment mMovieListFragment;
 		private GridListFragment mTvTabFragment;
 		private GridListFragment mPersonTabFragment;
 
@@ -154,7 +152,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 					break;
 			}
 
-			return GridListFragment.newInstance();
+			return fragment;
 		}
 
 		@Override
@@ -163,7 +161,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 
 			switch (position) {
 				case TAB_MOVIE:
-					mGridListFragment = (GridListFragment) createdFragment;
+					mMovieListFragment = (GridListFragment) createdFragment;
 					break;
 				case TAB_TV:
 					mTvTabFragment = (GridListFragment) createdFragment;
@@ -194,15 +192,21 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 		}
 
 		public void updateMovieList(List<PhotoListItemModel> movieList) {
-			mGridListFragment.updateItems(movieList);
+			if (mMovieListFragment != null) {
+				mMovieListFragment.updateItems(movieList);
+			}
 		}
 
 		public void updateTvShowList(List<PhotoListItemModel> tvShowList) {
-			mTvTabFragment.updateItems(tvShowList);
+			if (mTvTabFragment != null) {
+				mTvTabFragment.updateItems(tvShowList);
+			}
 		}
 
 		public void updatePeopleList(List<PhotoListItemModel> personList) {
-			mPersonTabFragment.updateItems(personList);
+			if (mPersonTabFragment != null) {
+				mPersonTabFragment.updateItems(personList);
+			}
 		}
 	}
 }

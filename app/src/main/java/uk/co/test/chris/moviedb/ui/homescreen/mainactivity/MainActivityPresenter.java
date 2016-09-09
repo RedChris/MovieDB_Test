@@ -77,9 +77,18 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 		final Handler handler = new Handler();
 		Runnable requestRunnable = () -> {
 			startDataRequests();
-			handler.post(() -> getView().hideLoadingState());
+			handler.post(() -> {
+				setListData();
+				MainActivityPresenter.this.getView().hideLoadingState();
+			});
 		};
 		new Thread(requestRunnable).start();
+	}
+
+	private void setListData() {
+		getView().setUpdatedMovieList(mMovieList);
+		getView().setUpdatedTvShowList(mTvShowList);
+		getView().setUpdatedPersonList(mPersonList);
 	}
 
 	private void startDataRequests() {
@@ -96,7 +105,6 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 							mConfigurationManager.buildStandardImageUrlForPoster(movie.getPosterPath()));
 					mMovieList.add(model);
 				}
-				getView().setUpdatedMovieList(mMovieList);
 
 				countDownLatch.countDown();
 
@@ -119,7 +127,6 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 							mConfigurationManager.buildStandardImageUrlForPoster(tvShow.getPosterPath()));
 					mTvShowList.add(model);
 				}
-				getView().setUpdatedTvShowList(mTvShowList);
 
 				countDownLatch.countDown();
 			}
@@ -141,7 +148,6 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 							mConfigurationManager.buildStandardImageUrlForPoster(person.getProfilePath()));
 					mPersonList.add(model);
 				}
-				getView().setUpdatedPersonList(mPersonList);
 
 				countDownLatch.countDown();
 			}
@@ -162,17 +168,17 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 
 	public void userWantsToViewMovieDetail(Integer movieId) {
 		getView().moveToPage(
-				NavigationAction.NavigateTo(MovieDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, movieId));
+				NavigationAction.navigateTo(MovieDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, movieId));
 	}
 
 	public void userWantsToViewTvDetail(Integer tvShowId) {
 		getView().moveToPage(
-				NavigationAction.NavigateTo(TvDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, tvShowId));
+				NavigationAction.navigateTo(TvDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, tvShowId));
 
 	}
 
 	public void userWantsToViewPersonDetail(Integer personId) {
 		getView().moveToPage(
-				NavigationAction.NavigateTo(PersonDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, personId));
+				NavigationAction.navigateTo(PersonDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, personId));
 	}
 }

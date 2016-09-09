@@ -1,6 +1,7 @@
 package uk.co.test.chris.moviedb.ui.homescreen.gridlist;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,7 +21,9 @@ import uk.co.test.chris.moviedb.injection.ApplicationComponent;
 import uk.co.test.chris.moviedb.ui.base.BaseFragment;
 import uk.co.test.chris.moviedb.ui.homescreen.OnItemClickedListener;
 import uk.co.test.chris.moviedb.ui.homescreen.gridlist.adapter.GridListItemAdapter;
+import uk.co.test.chris.moviedb.ui.homescreen.gridlist.classes.GridListItemDecorator;
 import uk.co.test.chris.moviedb.ui.homescreen.gridlist.model.PhotoListItemModel;
+import uk.co.test.chris.moviedb.util.Util;
 
 /**
  * Created by Chris on 09/09/2016.
@@ -61,8 +64,17 @@ public class GridListFragment extends BaseFragment implements GridListView {
 
 	private void initUi() {
 		mAdapter = new GridListItemAdapter(getActivity());
-		int NUMBER_OF_COLUMNS = 2;
-		mList.setLayoutManager(new GridLayoutManager(getActivity(), NUMBER_OF_COLUMNS));
+		int numberOfColumns;
+
+		if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			numberOfColumns = 2;
+		}
+		else{
+			numberOfColumns = 3;
+		}
+		mList.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns));
+		mList.addItemDecoration(new GridListItemDecorator(numberOfColumns, Util.dpToPx(24)));
+
 		mList.setAdapter(mAdapter);
 
 		mAdapter.setOnItemClickedListener(itemId -> {

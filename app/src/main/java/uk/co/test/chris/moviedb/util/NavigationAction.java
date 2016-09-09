@@ -19,7 +19,7 @@ public class NavigationAction {
 		mDestinationActivity = destinationActivity;
 	}
 
-	public static NavigationAction NavigateTo(@NonNull Class<? extends Activity> destinationActivity) {
+	public static NavigationAction navigateTo(@NonNull Class<? extends Activity> destinationActivity) {
 		return new NavigationAction(destinationActivity);
 	}
 
