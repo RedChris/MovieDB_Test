@@ -1,4 +1,4 @@
-package uk.co.test.chris.moviedb;
+package uk.co.test.chris.moviedb.ui.homescreen;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -19,25 +19,19 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import uk.co.test.chris.moviedb.R;
+import uk.co.test.chris.moviedb.injection.ApplicationComponent;
+import uk.co.test.chris.moviedb.ui.base.BaseActivity;
 
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a
-	 * {@link FragmentPagerAdapter} derivative, which will keep every
-	 * loaded fragment in memory. If this becomes too memory intensive, it
-	 * may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
+public class MainActivity extends BaseActivity implements MainActivityView {
+
+
 	private SectionsPagerAdapter mSectionsPagerAdapter;
-
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
 	private ViewPager mViewPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
@@ -63,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
+	}
+
+	@Override
+	protected void setupActivityComponent(ApplicationComponent appComponent) {
+		appComponent.plus(new MainActivityComponent.MainActivityModule(this)).inject(this);
 	}
 
 
