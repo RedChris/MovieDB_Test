@@ -1,4 +1,4 @@
-package uk.co.test.chris.moviedb.ui.homescreen;
+package uk.co.test.chris.moviedb.ui.homescreen.mainactivity;
 
 import dagger.Module;
 import dagger.Subcomponent;

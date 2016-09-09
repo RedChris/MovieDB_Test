@@ -9,4 +9,8 @@ public class PersonManager {
 	public PersonManager(MoviesDbService moviesDbService) {
 
 	}
+
+	public void getPopularPeople() {
+
+	}
 }

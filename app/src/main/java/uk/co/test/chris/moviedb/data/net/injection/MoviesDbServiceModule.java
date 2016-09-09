@@ -13,6 +13,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import uk.co.test.chris.moviedb.BuildConfig;
 import uk.co.test.chris.moviedb.data.net.MoviesDbService;
+import uk.co.test.chris.moviedb.data.net.interceptors.ApiKeyInterceptor;
 
 /**
  * Created by Chris on 09/09/2016.
@@ -30,6 +31,7 @@ public class MoviesDbServiceModule {
 
 		return new OkHttpClient.Builder()
 				.addNetworkInterceptor(logging)
+				.addInterceptor(new ApiKeyInterceptor())
 				.build();
 	}
 
@@ -49,6 +51,6 @@ public class MoviesDbServiceModule {
 	@Provides
 	@Singleton
 	static MoviesDbService provideService(Retrofit retrofit) {
-		return MoviesDbService.Factory.makeAsosService(retrofit);
+		return MoviesDbService.Factory.makeMovieDbService(retrofit);
 	}
 }

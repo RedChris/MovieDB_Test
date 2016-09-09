@@ -9,4 +9,8 @@ public class TvShowManager {
 	public TvShowManager(MoviesDbService moviesDbService) {
 
 	}
+
+	public void getPopularTvShows() {
+
+	}
 }

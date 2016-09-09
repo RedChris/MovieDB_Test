@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import uk.co.test.chris.moviedb.data.net.MoviesDbService;
+import uk.co.test.chris.moviedb.domain.managers.ConfigurationManager;
 import uk.co.test.chris.moviedb.domain.managers.MovieManager;
 import uk.co.test.chris.moviedb.domain.managers.PersonManager;
 import uk.co.test.chris.moviedb.domain.managers.TvShowManager;
@@ -31,6 +32,12 @@ public class ApplicationModule {
 	@Provides
 	Application provideApplication() {
 		return mApplication;
+	}
+
+	@Provides
+	@Singleton
+	static ConfigurationManager provideConfigurationManager(MoviesDbService moviesDbService) {
+		return new ConfigurationManager(moviesDbService);
 	}
 
 	@Provides
