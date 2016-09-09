@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".MyApplication">
+
         <activity
             android:name=".ui.homescreen.mainactivity.MainActivity"
             android:label="@string/app_name"
@@ -21,6 +22,28 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.moviedetail.MovieDetailActivity"
+                  android:parentActivityName=".ui.homescreen.mainactivity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.homescreen.mainactivity.MainActivity"/>
+        </activity>
+
+        <activity android:name=".ui.tvdetail.TvDetailActivity"
+                  android:parentActivityName=".ui.homescreen.mainactivity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.homescreen.mainactivity.MainActivity"/>
+        </activity>
+
+        <activity android:name=".ui.persondetail.PersonDetailActivity"
+                  android:parentActivityName=".ui.homescreen.mainactivity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.homescreen.mainactivity.MainActivity"/>
+        </activity>
+
     </application>
 
 </manifest>

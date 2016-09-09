@@ -1,4 +1,4 @@
-package uk.co.test.chris.moviedb.ui.homescreen.movietab;
+package uk.co.test.chris.moviedb.ui.homescreen.gridlist;
 
 import javax.inject.Inject;
 
@@ -8,12 +8,12 @@ import uk.co.test.chris.moviedb.ui.base.BasePresenter;
 /**
  * Created by Chris on 09/09/2016.
  */
-public class MovieTabPresenter extends BasePresenter<MovieTabView> {
+public class GridListPresenter extends BasePresenter<GridListView> {
 
 	private ConfigurationManager mConfigurationManager;
 
 	@Inject
-	public MovieTabPresenter(MovieTabView mvpView, ConfigurationManager configurationManager) {
+	public GridListPresenter(GridListView mvpView, ConfigurationManager configurationManager) {
 		super(mvpView);
 		mConfigurationManager = configurationManager;
 	}

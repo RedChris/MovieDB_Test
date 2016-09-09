@@ -11,7 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -20,11 +20,13 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.test.chris.moviedb.R;
-import uk.co.test.chris.moviedb.domain.classes.BasicMovie;
 import uk.co.test.chris.moviedb.injection.ApplicationComponent;
 import uk.co.test.chris.moviedb.ui.base.BaseActivity;
-import uk.co.test.chris.moviedb.ui.homescreen.movietab.MovieTabFragment;
-import uk.co.test.chris.moviedb.ui.homescreen.movietab.model.PhotoListItemModel;
+import uk.co.test.chris.moviedb.ui.homescreen.OnItemClickedListener;
+import uk.co.test.chris.moviedb.ui.homescreen.gridlist.GridListFragment;
+import uk.co.test.chris.moviedb.ui.homescreen.gridlist.adapter.GridListItemAdapter;
+import uk.co.test.chris.moviedb.ui.homescreen.gridlist.model.PhotoListItemModel;
+import uk.co.test.chris.moviedb.util.NavigationAction;
 import uk.co.test.chris.moviedb.util.UtilDialog;
 
 public class MainActivity extends BaseActivity implements MainActivityView {
@@ -54,7 +56,9 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 		mCategoryPagerAdapter = new CategoryPagerAdapter(getSupportFragmentManager());
 
 		mViewPager.setAdapter(mCategoryPagerAdapter);
+		mViewPager.setOffscreenPageLimit(3);
 		mTabsLayout.setupWithViewPager(mViewPager);
+
 	}
 
 	@Override
@@ -91,6 +95,16 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 	}
 
 	@Override
+	public void setUpdatedTvShowList(List<PhotoListItemModel> tvShowList) {
+		mCategoryPagerAdapter.updateTvShowList(tvShowList);
+	}
+
+	@Override
+	public void setUpdatedPersonList(List<PhotoListItemModel> personList) {
+		mCategoryPagerAdapter.updatePeopleList(personList);
+	}
+
+	@Override
 	public void showLoadingState() {
 		if(mProgressDialog ==  null) {
 			mProgressDialog = UtilDialog.createProgressDialog(this,"", "");
@@ -105,65 +119,90 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 		}
 	}
 
+	@Override
+	public void moveToPage(NavigationAction navigationAction) {
+		navigationAction.start(this);
+	}
+
 	public class CategoryPagerAdapter extends FragmentPagerAdapter {
 
-		private MovieTabFragment mMovieTabFragment;
-		private MovieTabFragment mTvTabFragment;
-		private MovieTabFragment mPersonTabFragment;
+		public static final int TAB_MOVIE = 0;
+		public static final int TAB_TV = 1;
+		public static final int TAB_PERSON = 2;
+
+		private GridListFragment mGridListFragment;
+		private GridListFragment mTvTabFragment;
+		private GridListFragment mPersonTabFragment;
 
 		public CategoryPagerAdapter(FragmentManager fm) {
 			super(fm);
-			mMovieTabFragment = MovieTabFragment.newInstance();
-			mTvTabFragment = MovieTabFragment.newInstance();
-			mPersonTabFragment = MovieTabFragment.newInstance();
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a PlaceholderFragment (defined as a static inner class below).
+			GridListFragment fragment = GridListFragment.newInstance();
 
-			if (position == 0) {
-				return mMovieTabFragment;
-			} else if (position == 1) {
-				return mTvTabFragment;
-			} else if (position == 2) {
-				 return mPersonTabFragment;
-			} else  {
-				// error
-				return null;
+			switch (position) {
+				case TAB_MOVIE:
+					fragment.setOnItemClickedListener(itemId -> mMainActivityPresenter.userWantsToViewMovieDetail(itemId));
+					break;
+				case TAB_TV:
+					fragment.setOnItemClickedListener(itemId -> mMainActivityPresenter.userWantsToViewTvDetail(itemId));
+					break;
+				case TAB_PERSON:
+					fragment.setOnItemClickedListener(itemId -> mMainActivityPresenter.userWantsToViewPersonDetail(itemId));
+					break;
 			}
+
+			return GridListFragment.newInstance();
+		}
+
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
+
+			switch (position) {
+				case TAB_MOVIE:
+					mGridListFragment = (GridListFragment) createdFragment;
+					break;
+				case TAB_TV:
+					mTvTabFragment = (GridListFragment) createdFragment;
+					break;
+				case TAB_PERSON:
+					mPersonTabFragment = (GridListFragment) createdFragment;
+					break;
+			}
+			return createdFragment;
 		}
 
 		@Override
 		public int getCount() {
-			// Show 3 total pages.
 			return 3;
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
 			switch (position) {
-				case 0:
-					return "SECTION 1";
-				case 1:
-					return "SECTION 2";
-				case 2:
-					return "SECTION 3";
+				case TAB_MOVIE:
+					return getString(R.string.main_activity_tab_movies);
+				case TAB_TV:
+					return getString(R.string.main_activity_tab_tv);
+				case TAB_PERSON:
+					return getString(R.string.main_activity_tab_people);
 			}
 			return null;
 		}
 
 		public void updateMovieList(List<PhotoListItemModel> movieList) {
-			mMovieTabFragment.updateMovies(movieList);
+			mGridListFragment.updateItems(movieList);
 		}
 
-		public void updateTvList(List<PhotoListItemModel> movieList) {
-			mTvTabFragment.updateMovies(movieList);
+		public void updateTvShowList(List<PhotoListItemModel> tvShowList) {
+			mTvTabFragment.updateItems(tvShowList);
 		}
 
-		public void updatePersonList(List<PhotoListItemModel> movieList) {
-			mPersonTabFragment.updateMovies(movieList);
+		public void updatePeopleList(List<PhotoListItemModel> personList) {
+			mPersonTabFragment.updateItems(personList);
 		}
 	}
 }

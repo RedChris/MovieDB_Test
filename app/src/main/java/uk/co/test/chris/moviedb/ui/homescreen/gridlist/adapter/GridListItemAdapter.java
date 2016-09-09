@@ -1,4 +1,4 @@
-package uk.co.test.chris.moviedb.ui.homescreen.movietab.adapter;
+package uk.co.test.chris.moviedb.ui.homescreen.gridlist.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,22 +11,22 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import uk.co.test.chris.moviedb.R;
-import uk.co.test.chris.moviedb.ui.homescreen.movietab.model.PhotoListItemModel;
+import uk.co.test.chris.moviedb.ui.homescreen.OnItemClickedListener;
+import uk.co.test.chris.moviedb.ui.homescreen.gridlist.model.PhotoListItemModel;
 
 /**
  * Created by Chris on 09/09/2016.
  */
-public class MovieTabAdapter extends RecyclerView.Adapter<MovieTabAdapter.ViewHolder> {
+public class GridListItemAdapter extends RecyclerView.Adapter<GridListItemAdapter.ViewHolder> {
 
 	private Context mContext;
 	private List<PhotoListItemModel> mItems = new ArrayList<>();
 	private OnItemClickedListener mOnItemClickedListener;
 
-	public MovieTabAdapter(Context context) {
+	public GridListItemAdapter(Context context) {
 		mContext = context;
 	}
 
@@ -85,9 +85,5 @@ public class MovieTabAdapter extends RecyclerView.Adapter<MovieTabAdapter.ViewHo
 		}
 	}
 
-	public interface OnItemClickedListener {
-
-		void onItemClicked(Integer itemId);
-	}
 
 }

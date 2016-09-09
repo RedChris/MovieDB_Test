@@ -8,13 +8,13 @@ import java.util.List;
 /**
  * Created by Chris on 09/09/2016.
  */
-public class MovieListEntity {
+public class PersonListEntity {
 
 	@SerializedName("page")
 	private Integer page;
 
 	@SerializedName("results")
-	private List<MovieEntity> results = new ArrayList<>();
+	private List<PersonEntity> results = new ArrayList<>();
 
 	@SerializedName("total_pages")
 	private Integer totalPages;
@@ -26,7 +26,7 @@ public class MovieListEntity {
 		return page;
 	}
 
-	public List<MovieEntity> getResults() {
+	public List<PersonEntity> getResults() {
 		return results;
 	}
 

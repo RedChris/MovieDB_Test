@@ -9,14 +9,20 @@ import java.util.concurrent.CountDownLatch;
 import javax.inject.Inject;
 
 import uk.co.test.chris.moviedb.domain.classes.BasicMovie;
+import uk.co.test.chris.moviedb.domain.classes.BasicPerson;
+import uk.co.test.chris.moviedb.domain.classes.BasicTvShow;
 import uk.co.test.chris.moviedb.domain.managers.ConfigurationManager;
 import uk.co.test.chris.moviedb.domain.managers.MovieManager;
 import uk.co.test.chris.moviedb.domain.managers.PersonManager;
 import uk.co.test.chris.moviedb.domain.managers.TvShowManager;
 import uk.co.test.chris.moviedb.ui.base.BasePresenter;
-import uk.co.test.chris.moviedb.ui.homescreen.movietab.model.PhotoListItemModel;
+import uk.co.test.chris.moviedb.ui.homescreen.gridlist.model.PhotoListItemModel;
+import uk.co.test.chris.moviedb.ui.moviedetail.MovieDetailActivity;
+import uk.co.test.chris.moviedb.ui.persondetail.PersonDetailActivity;
+import uk.co.test.chris.moviedb.ui.tvdetail.TvDetailActivity;
 import uk.co.test.chris.moviedb.util.BasicCompletionCallback;
 import uk.co.test.chris.moviedb.util.GenericRequestCallback;
+import uk.co.test.chris.moviedb.util.NavigationAction;
 
 /**
  * Created by Chris on 09/09/2016.
@@ -29,6 +35,8 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 	private PersonManager mPersonManager;
 
 	private List<PhotoListItemModel> mMovieList = new ArrayList<>();
+	private List<PhotoListItemModel> mTvShowList = new ArrayList<>();
+	private List<PhotoListItemModel> mPersonList = new ArrayList<>();
 
 	@Inject
 	public MainActivityPresenter(MainActivityView mvpView,
@@ -101,17 +109,17 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 			}
 		});
 
-		mMovieManager.getPopularMovies(new GenericRequestCallback<List<BasicMovie>>() {
+		mTvShowManager.getPopularTvShows(new GenericRequestCallback<List<BasicTvShow>>() {
 			@Override
-			public void onComplete(List<BasicMovie> movieList) {
-				mMovieList.clear();
-				for (BasicMovie movie : movieList) {
-					PhotoListItemModel model = new PhotoListItemModel(movie.getId(),
-							movie.getTitle(),
-							mConfigurationManager.buildStandardImageUrlForPoster(movie.getPosterPath()));
-					mMovieList.add(model);
+			public void onComplete(List<BasicTvShow> tvShowList) {
+				mTvShowList.clear();
+				for (BasicTvShow tvShow : tvShowList) {
+					PhotoListItemModel model = new PhotoListItemModel(tvShow.getId(),
+							tvShow.getName(),
+							mConfigurationManager.buildStandardImageUrlForPoster(tvShow.getPosterPath()));
+					mTvShowList.add(model);
 				}
-				getView().setUpdatedMovieList(mMovieList);
+				getView().setUpdatedTvShowList(mTvShowList);
 
 				countDownLatch.countDown();
 			}
@@ -123,17 +131,17 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 			}
 		});
 
-		mMovieManager.getPopularMovies(new GenericRequestCallback<List<BasicMovie>>() {
+		mPersonManager.getPopularPeople(new GenericRequestCallback<List<BasicPerson>>() {
 			@Override
-			public void onComplete(List<BasicMovie> movieList) {
-				mMovieList.clear();
-				for (BasicMovie movie : movieList) {
-					PhotoListItemModel model = new PhotoListItemModel(movie.getId(),
-							movie.getTitle(),
-							mConfigurationManager.buildStandardImageUrlForPoster(movie.getPosterPath()));
-					mMovieList.add(model);
+			public void onComplete(List<BasicPerson> movieList) {
+				mPersonList.clear();
+				for (BasicPerson person : movieList) {
+					PhotoListItemModel model = new PhotoListItemModel(person.getId(),
+							person.getName(),
+							mConfigurationManager.buildStandardImageUrlForPoster(person.getProfilePath()));
+					mPersonList.add(model);
 				}
-				getView().setUpdatedMovieList(mMovieList);
+				getView().setUpdatedPersonList(mPersonList);
 
 				countDownLatch.countDown();
 			}
@@ -150,8 +158,21 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
 
-		//mTvShowManager.getPopularTvShows();
-		//mPersonManager.getPopularPeople();
+	public void userWantsToViewMovieDetail(Integer movieId) {
+		getView().moveToPage(
+				NavigationAction.NavigateTo(MovieDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, movieId));
+	}
+
+	public void userWantsToViewTvDetail(Integer tvShowId) {
+		getView().moveToPage(
+				NavigationAction.NavigateTo(TvDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, tvShowId));
+
+	}
+
+	public void userWantsToViewPersonDetail(Integer personId) {
+		getView().moveToPage(
+				NavigationAction.NavigateTo(PersonDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, personId));
 	}
 }

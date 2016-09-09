@@ -1,4 +1,4 @@
-package uk.co.test.chris.moviedb.ui.homescreen.movietab;
+package uk.co.test.chris.moviedb.ui.homescreen.gridlist;
 
 
 import android.os.Bundle;
@@ -18,28 +18,30 @@ import butterknife.ButterKnife;
 import uk.co.test.chris.moviedb.R;
 import uk.co.test.chris.moviedb.injection.ApplicationComponent;
 import uk.co.test.chris.moviedb.ui.base.BaseFragment;
-import uk.co.test.chris.moviedb.ui.homescreen.movietab.adapter.MovieTabAdapter;
-import uk.co.test.chris.moviedb.ui.homescreen.movietab.model.PhotoListItemModel;
+import uk.co.test.chris.moviedb.ui.homescreen.OnItemClickedListener;
+import uk.co.test.chris.moviedb.ui.homescreen.gridlist.adapter.GridListItemAdapter;
+import uk.co.test.chris.moviedb.ui.homescreen.gridlist.model.PhotoListItemModel;
 
 /**
  * Created by Chris on 09/09/2016.
  */
-public class MovieTabFragment extends BaseFragment implements MovieTabView {
+public class GridListFragment extends BaseFragment implements GridListView {
 
-	@Inject MovieTabPresenter mMovieTabPresenter;
+	@Inject GridListPresenter mMovieTabPresenter;
 
 	@BindView(R.id.list) RecyclerView mList;
 
-	private MovieTabAdapter mAdapter;
+	private GridListItemAdapter mAdapter;
+	private OnItemClickedListener mOnItemClickedListener;
 
 	@Override
 	protected void setupActivityComponent(ApplicationComponent appComponent) {
-		appComponent.plus(new MovieTabComponent.MovieTabModule(this)).inject(this);
+		appComponent.plus(new GridListComponent.GridListModule(this)).inject(this);
 
 	}
 
-	public static MovieTabFragment newInstance() {
-		return new MovieTabFragment();
+	public static GridListFragment newInstance() {
+		return new GridListFragment();
 	}
 
 	@Nullable
@@ -58,15 +60,16 @@ public class MovieTabFragment extends BaseFragment implements MovieTabView {
 	}
 
 	private void initUi() {
-		mAdapter = new MovieTabAdapter(getActivity());
+		mAdapter = new GridListItemAdapter(getActivity());
 		int NUMBER_OF_COLUMNS = 2;
 		mList.setLayoutManager(new GridLayoutManager(getActivity(), NUMBER_OF_COLUMNS));
 		mList.setAdapter(mAdapter);
 
 		mAdapter.setOnItemClickedListener(itemId -> {
-			//
+			if (mOnItemClickedListener != null) {
+				mOnItemClickedListener.onItemClicked(itemId);
+			}
 		});
-
 
 	}
 
@@ -74,10 +77,14 @@ public class MovieTabFragment extends BaseFragment implements MovieTabView {
 	public void onDetach() {
 		super.onDetach();
 		mMovieTabPresenter.onDestroy();
-		//mListener = null;
+		mOnItemClickedListener = null;
 	}
 
-	public void updateMovies(List<PhotoListItemModel> movieList) {
+	public void updateItems(List<PhotoListItemModel> movieList) {
 		mAdapter.updateItems(movieList);
+	}
+
+	public void setOnItemClickedListener(OnItemClickedListener onItemClickedListener) {
+		mOnItemClickedListener = onItemClickedListener;
 	}
 }

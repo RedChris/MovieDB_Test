@@ -1,4 +1,4 @@
-package uk.co.test.chris.moviedb.ui.homescreen.movietab.model;
+package uk.co.test.chris.moviedb.ui.homescreen.gridlist.model;
 
 /**
  * Created by Chris on 09/09/2016.

@@ -8,6 +8,9 @@ import uk.co.test.chris.moviedb.data.entitys.MovieEntity;
  * Created by Chris on 09/09/2016.
  */
 public class BasicMovie {
+	public static final String KEY_BASIC_MOVIE_ID = "keyBasicMovieId";
+
+
 	@Expose
 	private final Integer id;
 

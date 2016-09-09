@@ -26,19 +26,12 @@ public class MovieManager {
 
 	public void getPopularMovies(GenericRequestCallback<List<BasicMovie>> callback) {
 		// check memory
-		try {
-			mMoviesDbService.getPopularMovies().execute();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
 		mMoviesDbService.getPopularMovies().enqueue(new Callback<MovieListEntity>() {
 			@Override
 			public void onResponse(Call<MovieListEntity> call, Response<MovieListEntity> response) {
 				if (response.isSuccessful()) {
 
-					List<MovieEntity> movieEntities = response.body().results;
+					List<MovieEntity> movieEntities = response.body().getResults();
 
 					mMovieList.clear();
 					for (MovieEntity movieEntity : movieEntities) {

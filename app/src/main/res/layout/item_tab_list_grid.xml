@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/black35PercentColor">
+        android:background="@color/black60PercentColor">
 
         <TextView
             android:id="@+id/title"
