@@ -37,4 +37,12 @@ public class UtilDialog {
 				.setNeutralButton(R.string.dialog_action_ok, clickListener);
 		return alertDialog.create();
 	}
+
+	public static AlertDialog createMessageDialog(Context context, String title, String message, String buttonText, @Nullable DialogInterface.OnClickListener clickListener) {
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context)
+				.setTitle(title)
+				.setMessage(message)
+				.setNeutralButton(buttonText, clickListener);
+		return alertDialog.create();
+	}
 }

@@ -1,6 +1,7 @@
 package uk.co.test.chris.moviedb.ui.homescreen.mainactivity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
 
@@ -25,6 +26,7 @@ import uk.co.test.chris.moviedb.ui.base.BaseActivity;
 import uk.co.test.chris.moviedb.ui.homescreen.gridlist.GridListFragment;
 import uk.co.test.chris.moviedb.ui.homescreen.gridlist.model.PhotoListItemModel;
 import uk.co.test.chris.moviedb.util.NavigationAction;
+import uk.co.test.chris.moviedb.util.StringResHolder;
 import uk.co.test.chris.moviedb.util.UtilDialog;
 
 public class MainActivity extends BaseActivity implements MainActivityView {
@@ -64,29 +66,6 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 		appComponent.plus(new MainActivityComponent.MainActivityModule(this)).inject(this);
 	}
 
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
-
 	@Override
 	public void setUpdatedMovieList(List<PhotoListItemModel> movieList) {
 		mCategoryPagerAdapter.updateMovieList(movieList);
@@ -105,7 +84,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 	@Override
 	public void showLoadingState() {
 		if(mProgressDialog ==  null) {
-			mProgressDialog = UtilDialog.createProgressDialog(this,"", "");
+			mProgressDialog = UtilDialog.createProgressDialog(this,getString(R.string.standard_loading), "");
 		}
 		mProgressDialog.show();
 	}
@@ -120,6 +99,11 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 	@Override
 	public void moveToPage(NavigationAction navigationAction) {
 		navigationAction.start(this);
+	}
+
+	@Override
+	public void displayError(StringResHolder title, StringResHolder message) {
+		UtilDialog.createMessageDialog(this, title.getString(this), message.getString(this), getString(R.string.standard_retry), (dialogInterface, i) -> mMainActivityPresenter.userWantsToRetryLoadingData()).show();
 	}
 
 	public class CategoryPagerAdapter extends FragmentPagerAdapter {
@@ -138,21 +122,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 
 		@Override
 		public Fragment getItem(int position) {
-			GridListFragment fragment = GridListFragment.newInstance();
-
-			switch (position) {
-				case TAB_MOVIE:
-					fragment.setOnItemClickedListener(itemId -> mMainActivityPresenter.userWantsToViewMovieDetail(itemId));
-					break;
-				case TAB_TV:
-					fragment.setOnItemClickedListener(itemId -> mMainActivityPresenter.userWantsToViewTvDetail(itemId));
-					break;
-				case TAB_PERSON:
-					fragment.setOnItemClickedListener(itemId -> mMainActivityPresenter.userWantsToViewPersonDetail(itemId));
-					break;
-			}
-
-			return fragment;
+			return GridListFragment.newInstance();
 		}
 
 		@Override
@@ -162,12 +132,15 @@ public class MainActivity extends BaseActivity implements MainActivityView {
 			switch (position) {
 				case TAB_MOVIE:
 					mMovieListFragment = (GridListFragment) createdFragment;
+					mMovieListFragment.setOnItemClickedListener(itemId -> mMainActivityPresenter.userWantsToViewMovieDetail(itemId));
 					break;
 				case TAB_TV:
 					mTvTabFragment = (GridListFragment) createdFragment;
+					mTvTabFragment.setOnItemClickedListener(itemId -> mMainActivityPresenter.userWantsToViewTvDetail(itemId));
 					break;
 				case TAB_PERSON:
 					mPersonTabFragment = (GridListFragment) createdFragment;
+					mPersonTabFragment.setOnItemClickedListener(itemId -> mMainActivityPresenter.userWantsToViewPersonDetail(itemId));
 					break;
 			}
 			return createdFragment;

@@ -14,6 +14,7 @@ import uk.co.test.chris.moviedb.data.entitys.ConfigurationEntity;
 import uk.co.test.chris.moviedb.data.net.MoviesDbService;
 import uk.co.test.chris.moviedb.domain.classes.Configuration;
 import uk.co.test.chris.moviedb.util.BasicCompletionCallback;
+import uk.co.test.chris.moviedb.util.UtilErrorString;
 
 /**
  * Created by Chris on 09/09/2016.
@@ -44,13 +45,13 @@ public class ConfigurationManager {
 						setConfigData(new Configuration(response.body()));
 						completionInterface.onComplete();
 					} else {
-						completionInterface.onFailure();
+						completionInterface.onFailure(UtilErrorString.GENERIC_ERROR_STRING_PAIR);
 					}
 				}
 
 				@Override
 				public void onFailure(Call<ConfigurationEntity> call, Throwable t) {
-					completionInterface.onFailure();
+					completionInterface.onFailure(UtilErrorString.getGenericErrorString(t));
 				}
 			});
 		}
@@ -70,5 +71,13 @@ public class ConfigurationManager {
 
 	public String buildStandardImageUrlForPoster(String resource) {
 		return MessageFormat.format("{0}{1}/{2}", mBaseUrl, mPosterSizes.get(0), resource);
+	}
+
+	public String buildStandardImageUrlForBackdrop(String resource) {
+		return MessageFormat.format("{0}{1}/{2}", mBaseUrl, mBackdropSizes.get(1), resource);
+	}
+
+	public String buildStandardImageUrlForProfile(String resource) {
+		return MessageFormat.format("{0}{1}/{2}", mBaseUrl, mBackdropSizes.get(0), resource);
 	}
 }

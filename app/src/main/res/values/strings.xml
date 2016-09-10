@@ -4,6 +4,8 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="dialog_action_ok">OK</string>
+    <string name="standard_loading">Loading</string>
+    <string name="standard_retry">Retry</string>
 
     <!-- Errors -->
     <string name="generic_error_title">Oops, Something went wrong</string>
@@ -13,4 +15,39 @@
     <string name="main_activity_tab_movies">Movies</string>
     <string name="main_activity_tab_tv">TV Shows</string>
     <string name="main_activity_tab_people">People</string>
+
+    <string name="generic_movie_error_title">Oops, Something went wrong loading the movies</string>
+    <string name="generic_movie_error_message">Please try again later</string>
+    <string name="movie_error_fetching_by_id_title">Sorry</string>
+    <string name="movie_error_fetching_by_id_message">We coundn\'t retrieve that film right now.</string>
+
+    <string name="generic_tv_show_error_title">Oops, Something went wrong loading the tv shows</string>
+    <string name="generic_tv_show_error_message">Please try again later</string>
+    <string name="tv_show_error_fetching_by_id_title">Sorry</string>
+    <string name="tv_show_error_fetching_by_id_message">We coundn\'t retrieve that show right now.</string>
+
+
+    <string name="generic_person_error_title">Oops, Something went wrong loading the People</string>
+    <string name="generic_person_error_message">Please try again later</string>
+    <string name="person_error_fetching_by_id_title">Sorry</string>
+    <string name="person_error_fetching_by_id_message">We coundn\'t retrieve that person right now.</string>
+    <string name="tv_detail_genre">Genre</string>
+    <string name="tv_detail_number_of_seasons">Number Of Seasons</string>
+    <string name="tv_detail_number_of_episodes">Number Of Episodes</string>
+    <string name="tv_detail_runtime">Runtime</string>
+    <string name="tv_detail_first_aired">First Aired</string>
+    <string name="tv_detail_country_of_origin">Country of Origin</string>
+    <string name="tv_detail_created_by">Created By</string>
+    <string name="tv_detail_languages">Languages</string>
+    <string name="tv_detail_produced_by">Produced By</string>
+    <string name="person_detail_birthday">Birthday</string>
+    <string name="person_detail_gender">Gender</string>
+    <string name="movie_detail_genre">Genre</string>
+    <string name="movie_detail_runtime">Runtime</string>
+    <string name="movie_detail_release_date">Release Date</string>
+    <string name="movie_detail_budget">Budget</string>
+    <string name="movie_detail_revenue">Revenue</string>
+    <string name="movie_detail_produced_in">Produced In</string>
+    <string name="movie_detail_produced_by">Produced By</string>
+
 </resources>

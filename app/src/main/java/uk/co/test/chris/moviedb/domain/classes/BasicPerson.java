@@ -9,6 +9,8 @@ import uk.co.test.chris.moviedb.data.entitys.PersonEntity;
  */
 public class BasicPerson {
 
+	public static final String KEY_BASIC_PERSON_ID = "keyBasicPersonId";
+
 	@Expose
 	private Integer id;
 

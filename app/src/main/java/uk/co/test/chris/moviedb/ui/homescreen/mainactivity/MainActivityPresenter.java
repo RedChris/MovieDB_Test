@@ -1,10 +1,12 @@
 package uk.co.test.chris.moviedb.ui.homescreen.mainactivity;
 
 import android.os.Handler;
+import android.support.v4.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.inject.Inject;
 
@@ -23,6 +25,7 @@ import uk.co.test.chris.moviedb.ui.tvdetail.TvDetailActivity;
 import uk.co.test.chris.moviedb.util.BasicCompletionCallback;
 import uk.co.test.chris.moviedb.util.GenericRequestCallback;
 import uk.co.test.chris.moviedb.util.NavigationAction;
+import uk.co.test.chris.moviedb.util.StringResHolder;
 
 /**
  * Created by Chris on 09/09/2016.
@@ -54,6 +57,10 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 	@Override
 	public void onViewReady() {
 		super.onViewReady();
+		startLoadingData();
+	}
+
+	private void startLoadingData() {
 		getView().showLoadingState();
 		if (mConfigurationManager.isConfigSetup()) {
 			loadData();
@@ -65,9 +72,9 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 				}
 
 				@Override
-				public void onFailure() {
+				public void onFailure(Pair<StringResHolder, StringResHolder> errorPair) {
 					getView().hideLoadingState();
-					// show error and retry
+					getView().displayError(errorPair.first, errorPair.second);
 				}
 			});
 		}
@@ -76,10 +83,14 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 	private void loadData() {
 		final Handler handler = new Handler();
 		Runnable requestRunnable = () -> {
-			startDataRequests();
+			Pair<StringResHolder, StringResHolder> error = startDataRequests();
 			handler.post(() -> {
 				setListData();
 				MainActivityPresenter.this.getView().hideLoadingState();
+				if (error != null) {
+					getView().displayError(error.first, error.second);
+				}
+
 			});
 		};
 		new Thread(requestRunnable).start();
@@ -91,9 +102,10 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 		getView().setUpdatedPersonList(mPersonList);
 	}
 
-	private void startDataRequests() {
+	private Pair<StringResHolder, StringResHolder> startDataRequests() {
 
 		CountDownLatch countDownLatch = new CountDownLatch(3);
+		AtomicReference<Pair<StringResHolder, StringResHolder>> displayError = new AtomicReference<>(null);
 
 		mMovieManager.getPopularMovies(new GenericRequestCallback<List<BasicMovie>>() {
 			@Override
@@ -111,10 +123,13 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 			}
 
 			@Override
-			public void onFailure() {
+			public void onFailure(Pair<StringResHolder, StringResHolder> errorPair) {
+				if (displayError.get() != null) {
+					displayError.set(errorPair);
+				}
 				countDownLatch.countDown();
-
 			}
+
 		});
 
 		mTvShowManager.getPopularTvShows(new GenericRequestCallback<List<BasicTvShow>>() {
@@ -132,9 +147,11 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 			}
 
 			@Override
-			public void onFailure() {
+			public void onFailure(Pair<StringResHolder, StringResHolder> errorPair) {
+				if (displayError.get() != null) {
+					displayError.set(errorPair);
+				}
 				countDownLatch.countDown();
-
 			}
 		});
 
@@ -153,9 +170,11 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 			}
 
 			@Override
-			public void onFailure() {
+			public void onFailure(Pair<StringResHolder, StringResHolder> errorPair) {
+				if (displayError.get() != null) {
+					displayError.set(errorPair);
+				}
 				countDownLatch.countDown();
-
 			}
 		});
 
@@ -164,6 +183,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		return displayError.get();
 	}
 
 	public void userWantsToViewMovieDetail(Integer movieId) {
@@ -173,12 +193,16 @@ public class MainActivityPresenter extends BasePresenter<MainActivityView> {
 
 	public void userWantsToViewTvDetail(Integer tvShowId) {
 		getView().moveToPage(
-				NavigationAction.navigateTo(TvDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, tvShowId));
+				NavigationAction.navigateTo(TvDetailActivity.class).withInt(BasicTvShow.KEY_BASIC_TV_SHOW_ID, tvShowId));
 
 	}
 
 	public void userWantsToViewPersonDetail(Integer personId) {
 		getView().moveToPage(
-				NavigationAction.navigateTo(PersonDetailActivity.class).withInt(BasicMovie.KEY_BASIC_MOVIE_ID, personId));
+				NavigationAction.navigateTo(PersonDetailActivity.class).withInt(BasicPerson.KEY_BASIC_PERSON_ID, personId));
+	}
+
+	public void userWantsToRetryLoadingData() {
+		startLoadingData();
 	}
 }

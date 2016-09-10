@@ -1,6 +1,7 @@
 package uk.co.test.chris.moviedb.domain.classes;
 
 import uk.co.test.chris.moviedb.data.entitys.FullPersonEntity;
+import uk.co.test.chris.moviedb.util.UtilDate;
 
 /**
  * Created by Chris on 09/09/2016.
@@ -10,7 +11,7 @@ public class DetailedPerson {
 	private final String name;
 	private final String biography;
 	private final String birthday;
-	private final Integer gender;
+	private final String gender;
 	private final String homepage;
 	private final String placeOfBirth;
 	private final String profilePath;
@@ -18,11 +19,22 @@ public class DetailedPerson {
 	public DetailedPerson(FullPersonEntity fullPersonEntity) {
 		name = fullPersonEntity.getName();
 		biography = fullPersonEntity.getBiography();
-		birthday = fullPersonEntity.getBirthday();
-		gender = fullPersonEntity.getGender();
+		birthday = UtilDate.convertServerDateToDisplayDate(fullPersonEntity.getBirthday());
 		homepage = fullPersonEntity.getHomepage();
 		placeOfBirth = fullPersonEntity.getPlaceOfBirth();
 		profilePath = fullPersonEntity.getProfilePath();
+
+		switch (fullPersonEntity.getGender()) {
+
+			case 1:
+				gender = "female";
+				break;
+			case 2:
+				gender = "male";
+				break;
+			default:
+				gender = "N/A";
+		}
 	}
 
 	public String getName() {
@@ -37,7 +49,7 @@ public class DetailedPerson {
 		return birthday;
 	}
 
-	public Integer getGender() {
+	public String getGender() {
 		return gender;
 	}
 

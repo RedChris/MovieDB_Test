@@ -8,6 +8,7 @@ import uk.co.test.chris.moviedb.data.entitys.TvEntity;
  * Created by Chris on 09/09/2016.
  */
 public class BasicTvShow {
+	public static final String KEY_BASIC_TV_SHOW_ID = "keyBasicTvShowId";
 	@Expose
 	private final Integer id;
 

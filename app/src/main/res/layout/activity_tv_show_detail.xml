@@ -56,7 +56,7 @@
                         android:textSize="14sp"/>
 
                     <TextView
-                        android:id="@+id/tagline"
+                        android:id="@+id/status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@id/poster"
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/genre"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/movie_detail_genre"
+                    android:text="@string/tv_detail_genre"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
@@ -92,9 +92,51 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/seasons"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/tv_detail_number_of_seasons"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/seasons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/genre"
+                    android:gravity="right"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/episodes"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/tv_detail_number_of_episodes"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/episodes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/seasons"
+                    android:gravity="right"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/runtime"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/movie_detail_runtime"
+                    android:text="@string/tv_detail_runtime"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
@@ -104,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/genre"
+                    android:layout_below="@+id/episodes"
                     android:layout_marginBottom="16dp"
                     android:textColor="@color/white"
                     android:textSize="14sp"/>
@@ -112,15 +154,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/release_date"
+                    android:layout_alignBaseline="@+id/first_aired"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/movie_detail_release_date"
+                    android:text="@string/tv_detail_first_aired"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/release_date"
+                    android:id="@+id/first_aired"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -132,19 +174,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/budget"
+                    android:layout_alignBaseline="@+id/origin"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/movie_detail_budget"
+                    android:text="@string/tv_detail_country_of_origin"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/budget"
+                    android:id="@+id/origin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/release_date"
+                    android:layout_below="@id/first_aired"
                     android:layout_marginBottom="16dp"
                     android:textColor="@color/white"
                     android:textSize="14sp"/>
@@ -152,19 +194,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/revenue"
+                    android:layout_alignBaseline="@+id/created_by"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/movie_detail_revenue"
+                    android:text="@string/tv_detail_created_by"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/revenue"
+                    android:id="@+id/created_by"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/budget"
+                    android:layout_below="@id/origin"
                     android:layout_marginBottom="16dp"
                     android:textColor="@color/white"
                     android:textSize="14sp"/>
@@ -172,19 +214,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/countries"
+                    android:layout_alignBaseline="@+id/languages"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/movie_detail_produced_in"
+                    android:text="@string/tv_detail_languages"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/countries"
+                    android:id="@+id/languages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/revenue"
+                    android:layout_below="@id/created_by"
                     android:layout_marginBottom="16dp"
                     android:textColor="@color/white"
                     android:textSize="14sp"/>
@@ -194,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/companies"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/movie_detail_produced_by"
+                    android:text="@string/tv_detail_produced_by"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
@@ -204,7 +246,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@+id/countries"
+                    android:layout_below="@+id/languages"
                     android:layout_marginBottom="16dp"
                     android:gravity="right"
                     android:textColor="@color/white"

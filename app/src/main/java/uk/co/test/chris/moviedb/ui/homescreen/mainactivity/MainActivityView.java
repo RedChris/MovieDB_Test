@@ -5,6 +5,7 @@ import java.util.List;
 import uk.co.test.chris.moviedb.ui.base.MvpView;
 import uk.co.test.chris.moviedb.ui.homescreen.gridlist.model.PhotoListItemModel;
 import uk.co.test.chris.moviedb.util.NavigationAction;
+import uk.co.test.chris.moviedb.util.StringResHolder;
 
 /**
  * Created by Chris on 09/09/2016.
@@ -21,4 +22,6 @@ public interface MainActivityView extends MvpView {
 	void hideLoadingState();
 
 	void moveToPage(NavigationAction navigationAction);
+
+	void displayError(StringResHolder title, StringResHolder message);
 }
