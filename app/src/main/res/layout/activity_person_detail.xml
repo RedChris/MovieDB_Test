@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black80PercentColor"
+            android:paddingBottom="24dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="24dp">
+
+            <RelativeLayout
+                android:id="@+id/header_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp">
+
+                <ImageView
+                    android:id="@+id/profile"
+                    android:layout_width="150dp"
+                    android:layout_height="200dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/black80PercentColor"
+                    android:padding="4dp"/>
+
+                <TextView
+                    android:id="@+id/biography"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="12dp"
+                    android:layout_toRightOf="@id/profile"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/birthday"
+                android:layout_alignParentLeft="true"
+                android:text="@string/person_detail_birthday"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/header_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="right"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/gender"
+                android:layout_alignParentLeft="true"
+                android:text="@string/person_detail_gender"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/birthday"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</ScrollView>
